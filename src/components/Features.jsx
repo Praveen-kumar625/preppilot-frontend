@@ -7,27 +7,28 @@ function Features() {
                 <div className="feature-card">
                     <h3>Readiness Prediction</h3>
                     <p>
-                        A Random Forest model trained on 37 academic, coding
-                        and preparation signals predicts whether your
-                        readiness is Poor, Average, Good or Excellent.
+                        A Random Forest model looks at 37 things - your
+                        marks, coding and preparation - and tells you if you
+                        are Poor, Average, Good or Excellent.
                     </p>
                 </div>
 
                 <div className="feature-card">
-                    <h3>Class Probabilities</h3>
+                    <h3>Chances for Each Class</h3>
                     <p>
-                        Do not just see a label. See the probability of every
-                        readiness class, so you know how close you are to the
-                        next level.
+                        Do not just see one word. See the chance for each
+                        class, so you know how close you are to the next
+                        level.
                     </p>
                 </div>
 
                 <div className="feature-card">
                     <h3>Honest Model Card</h3>
                     <p>
-                        92.89% accuracy and 90.38 Macro F1 on a 12,000-record
-                        held-out test set, against a 47.11% baseline. The
-                        numbers come from the model metadata, not marketing.
+                        92.89% right and 90.38 Macro F1 on a test set of
+                        12,000 records, against a 47.11% simple baseline.
+                        These numbers come from the model's own test report,
+                        not from ads.
                     </p>
                 </div>
             </div>

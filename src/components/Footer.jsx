@@ -15,8 +15,8 @@ function Footer() {
                 <Link to="/register">Register</Link>
             </p>
             <p>
-                Readiness model: Random Forest classifier · 92.89% accuracy on a
-                12,000-record held-out test set
+                Readiness model: Random Forest · 92.89% right on a test set
+                of 12,000 records
             </p>
         </footer>
     );

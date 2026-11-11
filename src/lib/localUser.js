@@ -1,8 +1,7 @@
-// PrePilot has no account server yet. Login and Register therefore work
-// entirely in the browser: the details are validated on the client and kept
-// in localStorage on this device only. Nothing is sent to a server, and no
-// real account is created. Replace these helpers with real API calls when a
-// backend auth service exists.
+// PrePilot has no account server yet. So Login and Register work only in
+// the browser: the details are checked here and kept in localStorage on
+// this device only. Nothing is sent to a server, and no real account is
+// made. Change these helpers to real API calls when a login backend is built.
 
 const STORAGE_KEY = "preppilot_user";
 

@@ -31,8 +31,8 @@ function Register() {
             setError("Passwords do not match.");
             return;
         }
-        // No account server exists yet, so registration is kept only in
-        // this browser. The password itself is never stored.
+        // There is no account server yet, so this sign-up stays only in
+        // this browser. The password is never saved.
         saveLocalUser({ name: name.trim(), email: email.trim() });
         navigate("/");
     }
@@ -46,10 +46,9 @@ function Register() {
                         <h1>Create your account</h1>
                         <p className="auth-note">
                             PrePilot does not have an account server yet. This
-                            form validates your details and keeps the
-                            registration only in this browser - no account is
-                            created on any server, and your password is never
-                            stored.
+                            form checks your details and keeps the sign-up
+                            only in this browser - no account is made on any
+                            server, and your password is never saved.
                         </p>
                         <form className="auth-form" onSubmit={handleSubmit} noValidate>
                             {error && (

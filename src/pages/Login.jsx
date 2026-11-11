@@ -22,8 +22,8 @@ function Login() {
             setError("Please enter your password.");
             return;
         }
-        // No account server exists yet, so this sign-in is kept only in
-        // this browser. It never claims a server-side login happened.
+        // There is no account server yet, so this login stays only in
+        // this browser. It never says a server login happened.
         saveLocalUser({ email: email.trim() });
         navigate("/");
     }
@@ -61,9 +61,9 @@ function Login() {
                                 <h1>Login</h1>
                                 <p className="auth-note">
                                     PrePilot does not have an account server
-                                    yet. This form validates your details and
-                                    keeps the sign-in only in this browser -
-                                    no account is created or checked on any
+                                    yet. This form checks your details and
+                                    keeps the login only in this browser -
+                                    no account is made or checked on any
                                     server.
                                 </p>
                                 <form className="auth-form" onSubmit={handleSubmit} noValidate>

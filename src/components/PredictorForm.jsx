@@ -3,8 +3,8 @@ import "./PredictorForm.css";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL ?? "http://127.0.0.1:5000";
 
-// Fallbacks mirror ml/model_metadata.json and are only used until
-// GET /api/roles answers, so the form still renders if the ML server is down.
+// These roles match ml/model_metadata.json. They are only used until
+// GET /api/roles answers, so the form still shows if the ML server is down.
 const FALLBACK_ROLES = [
     "AI/ML Engineer",
     "Data Engineer / Analyst",
@@ -66,7 +66,7 @@ function PredictorForm() {
                 }
             })
             .catch(() => {
-                // Server unreachable: keep the metadata fallback roles.
+                // Server not reachable: keep the roles from the list above.
             });
         return () => {
             cancelled = true;
@@ -129,10 +129,10 @@ function PredictorForm() {
                     <h2 className="section-title">How ready are you, honestly?</h2>
                     <p className="section-description">
                         Fill in what you know. The live Random Forest model
-                        predicts your readiness class and its confidence.
+                        tells you your readiness class and how sure it is.
                         Fields you leave blank are filled with the model's
-                        training medians, and the API reports every such
-                        substitution as a warning below the result.
+                        training middle values, and the API lists every such
+                        fill as a warning below the result.
                     </p>
                 </div>
 
@@ -216,7 +216,7 @@ function PredictorForm() {
                         className="btn btn-primary"
                         disabled={status === "loading"}
                     >
-                        {status === "loading" ? "Checking..." : "Predict My Readiness"}
+                        {status === "loading" ? "Checking..." : "Check My Readiness"}
                     </button>
                 </form>
 
@@ -238,7 +238,7 @@ function PredictorForm() {
                         <p className="predictor-result-meta">
                             Confidence {(result.confidence * 100).toFixed(1)}% ·
                             Target role: {result.target_role} ·
-                            Inference {result.inference_time_ms} ms
+                            Prediction time {result.inference_time_ms} ms
                         </p>
 
                         <div className="predictor-bars">
@@ -264,7 +264,7 @@ function PredictorForm() {
                         {result.warnings && result.warnings.length > 0 && (
                             <details className="predictor-warnings">
                                 <summary>
-                                    {result.warnings.length} field(s) were defaulted by the model
+                                    {result.warnings.length} field(s) were filled by the model
                                 </summary>
                                 <ul>
                                     {result.warnings.map((warning, index) => (
