@@ -2,9 +2,9 @@
 
 # PrePilot
 
-### Know if you're interview-ready — before the interview.
+### Know if you are interview-ready — before the interview.
 
-**PrePilot** predicts a student's interview readiness — **Poor, Average, Good or Excellent** — from academic results, coding practice and preparation signals, so students can see exactly where they stand before the real interview.
+**PrePilot** tells a student how ready they are for an interview — **Poor, Average, Good or Excellent** — using their marks, coding practice and preparation. So students can see where they stand before the real interview.
 
 ![Build](https://img.shields.io/badge/build-passing-brightgreen)
 ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)
@@ -12,7 +12,7 @@
 ![Python](https://img.shields.io/badge/Python-ML%20API-3776AB?logo=python&logoColor=white)
 ![Accuracy](https://img.shields.io/badge/accuracy-92.89%25-blue)
 
-[Quick start](#-quick-start) · [How it works](#-how-it-works) · [Model card](#-model-card) · [API](#-api) · [The SRS vision](#-the-srs-vision--interviewiq-ai-v10) · [Roadmap](#-roadmap) · [Known limitations](#-known-limitations)
+[Quick start](#-quick-start) · [How it works](#-how-it-works) · [Model card](#-model-card) · [API](#-api) · [The SRS vision](#-the-srs-vision--interviewiq-ai-v10) · [Roadmap](#-roadmap) · [Known limits](#-known-limits)
 
 </div>
 
@@ -22,19 +22,19 @@
 
 | | |
 |---|---|
-| **What it is** | An interview-readiness predictor with a React frontend and a Python ML API |
+| **What it is** | An interview-readiness checker with a React frontend and a Python ML API |
 | **The model** | Random Forest · 100 trees · 37 features · trained on 60,000 records |
-| **Test accuracy** | **92.89%** (Macro F1 **90.38**, baseline 47.11%) |
+| **Test accuracy** | **92.89%** (Macro F1 **90.38**, simple baseline 47.11%) |
 | **Target roles** | AI/ML Engineer · Data Engineer / Analyst · Full Stack Web Developer · SDE · Technical Support / QA |
 | **Frontend** | React 19 + Vite · `react-router-dom` routes: `/`, `/login`, `/register` |
-| **Backend** | Python standard-library HTTP API on port 5000 — no framework, no database yet |
-| **Author** | Khushboo Kaushik · B.Tech CSE (AIML), GLA University, Greater Noida |
+| **Backend** | Python HTTP API on port 5000 — plain Python only, no database yet |
+| **Made by** | Khushboo Kaushik · B.Tech CSE (AIML), GLA University, Greater Noida |
 
 ---
 
 ## ✨ Quick start
 
-You need **two processes**: the ML API and the frontend.
+You need **two things running**: the ML API and the frontend.
 
 ### 1. ML API — port 5000
 
@@ -50,9 +50,9 @@ npm install
 npm run dev
 ```
 
-Open the URL Vite prints (default http://localhost:5173). The readiness form calls the ML API at `http://127.0.0.1:5000` by default. To point it elsewhere, copy `.env.example` to `.env` and set `VITE_API_BASE_URL`.
+Open the link Vite shows (by default http://localhost:5173). The form talks to the ML API at `http://127.0.0.1:5000` by default. To use a different address, copy `.env.example` to `.env` and set `VITE_API_BASE_URL`.
 
-### Other scripts
+### Other commands
 
 ```bash
 npm run build    # production build
@@ -70,51 +70,51 @@ flowchart LR
     B --> C[POST /api/predict]
     C --> D[Random Forest · 100 trees]
     D --> E[Poor / Average / Good / Excellent]
-    E --> F[Confidence + probabilities + warnings]
+    E --> F[Confidence + chances + warnings]
 ```
 
-1. The student enters their profile — CGPA, DSA score, mock-test scores, target role and more.
+1. The student fills the form — CGPA, DSA score, mock-test scores, target role and more.
 2. The form sends it to `POST /api/predict`.
-3. The model returns the readiness class, a confidence score, per-class probabilities, inference time — and a warning for every field it had to fill in from training medians, so nothing is silently guessed.
+3. The model gives back the readiness class, a confidence score, the chance for each class, and how long the prediction took — plus a warning for every field it had to fill in from training medians, so nothing is guessed in secret.
 
 ---
 
 ## 🧠 Model card
 
-Sourced from `ml/model_metadata.json` — the numbers below are measured, not claimed.
+These numbers come from `ml/model_metadata.json` — they are measured, not made up.
 
 | | |
 |---|---|
-| Algorithm | RandomForestClassifier — 100 trees, `random_state` 42, stratified split |
-| Features | **37** (33 numeric, 4 categorical) |
-| Training data | **60,000 records** — 48,000 train / 12,000 held-out test |
+| Model | RandomForestClassifier — 100 trees, `random_state` 42, balanced split |
+| Features | **37** (33 numbers, 4 categories) |
+| Training data | **60,000 records** — 48,000 for training / 12,000 for testing |
 | Test accuracy | **92.89%** |
 | Macro F1 | **90.38** |
 | Weighted F1 | 92.91 |
-| Baseline (DummyClassifier) accuracy | 47.11% |
-| Supported degrees | B.Tech only |
-| Supported target roles | AI/ML Engineer · Data Engineer / Analyst · Full Stack Web Developer · Software Development Engineer (SDE) · Technical Support / QA Engineer |
+| Simple baseline (DummyClassifier) accuracy | 47.11% |
+| Degrees it supports | B.Tech only |
+| Target roles it supports | AI/ML Engineer · Data Engineer / Analyst · Full Stack Web Developer · Software Development Engineer (SDE) · Technical Support / QA Engineer |
 
-> **Note:** the training dataset CSV is not committed to this repository, so the model can be served and used, but not retrained from a fresh clone.
+> **Note:** the training dataset file (CSV) is not kept in this repo, so you can run and use the model, but you cannot train it again from a fresh copy of this repo.
 
 ---
 
-## 🏗️ Architecture — what is actually built
+## 🏗️ How the code is set up — what is actually built
 
 ```
 preppilot-frontend/
 ├── src/                      React frontend (Vite)
 │   ├── pages/                Home, Login, Register (react-router-dom routes)
 │   ├── components/           Navbar, Hero, Features, PredictorForm, Footer
-│   └── lib/                  Browser-local helpers (see "Accounts" below)
+│   └── lib/                  Browser-only helpers (see "Accounts" below)
 ├── ml/                       Python ML side
-│   ├── server.py             HTTP API on port 5000 (Python standard library only)
-│   ├── predict.py            Inference pipeline (validation, imputation, prediction)
-│   ├── train_readiness.py    Model training script
-│   ├── export_model.py       Exports the .joblib pipeline + metadata
-│   ├── model_metadata.json   Feature spec, medians and evaluation metrics
-│   └── preppilot_readiness_model.joblib   Trained model pipeline
-├── requirements.txt          Python dependencies
+│   ├── server.py             HTTP API on port 5000 (plain Python only)
+│   ├── predict.py            Prediction steps (checking inputs, filling gaps, predicting)
+│   ├── train_readiness.py    Script to train the model
+│   ├── export_model.py       Saves the .joblib model + metadata
+│   ├── model_metadata.json   Feature list, medians and test scores
+│   └── preppilot_readiness_model.joblib   Trained model
+├── requirements.txt          Python packages needed
 └── README.md                 You are here
 ```
 
@@ -122,13 +122,13 @@ preppilot-frontend/
 
 ## 🔌 API
 
-| Method | Endpoint | Description |
+| Method | Link | What it does |
 |---|---|---|
-| `GET` | `/api/health` | Service status, model name and supported roles |
-| `GET` | `/api/roles` | Supported target roles |
-| `POST` | `/api/predict` | Readiness prediction for a profile |
+| `GET` | `/api/health` | Tells if the service is up, the model name and the roles it supports |
+| `GET` | `/api/roles` | Lists the target roles it supports |
+| `POST` | `/api/predict` | Gives a readiness prediction for a profile |
 
-`POST /api/predict` accepts a JSON object with any subset of the 37 model features (full list in `ml/model_metadata.json`).
+`POST /api/predict` takes a JSON object with any of the 37 model features (full list in `ml/model_metadata.json`).
 
 ```bash
 curl -X POST http://127.0.0.1:5000/api/predict \
@@ -137,7 +137,7 @@ curl -X POST http://127.0.0.1:5000/api/predict \
 ```
 
 <details>
-<summary><strong>Example response</strong></summary>
+<summary><strong>Example answer</strong></summary>
 
 ```json
 {
@@ -146,7 +146,7 @@ curl -X POST http://127.0.0.1:5000/api/predict \
   "confidence": 0.81,
   "probabilities": { "Average": 0.09, "Excellent": 0.08, "Good": 0.81, "Poor": 0.02 },
   "target_role": "Software Development Engineer (SDE)",
-  "inference_time_ms": 12.4,
+  "prediction_time_ms": 12.4,
   "warnings": ["Missing numeric feature 'age'; defaulted to benchmark median 20.0."],
   "mode": "live_ml"
 }
@@ -154,139 +154,139 @@ curl -X POST http://127.0.0.1:5000/api/predict \
 
 </details>
 
-Missing input fields are filled with the training medians by the inference pipeline, and every substitution is reported back in the API response as a warning.
+If some fields are missing, the prediction steps fill them with the training medians, and every such fill is sent back in the answer as a warning.
 
 ---
 
 ## 📘 The SRS vision — InterviewIQ AI v1.0
 
-This project began as a documented specification: **InterviewIQ AI — Intelligent Interview Preparation and Personalized Career Coaching Platform**, Software Requirement Specification v1.0, September 2026 (GLA University). Everything in this section comes from that SRS. It is the vision the product is growing toward — and it is kept separate from what is built today, because the two are not the same yet.
+This project started with a written plan: **InterviewIQ AI — Intelligent Interview Preparation and Personalized Career Coaching Platform**, Software Requirement Specification v1.0, September 2026 (GLA University). Everything in this part comes from that SRS. It is the big picture this product is growing towards — and it is kept apart from what is built today, because the two are not the same yet.
 
-### What the SRS sets out to build
+### What the SRS plans to build
 
-A web platform where students **upload resumes, take AI-driven mock interviews, and receive semantic feedback** on their performance — with skill-gap detection and personalised learning recommendations. It explicitly does **not** provide live human coaching or direct job placement; it focuses on the preparation cycle through automated evaluation and resource recommendation.
+A website where students **upload resumes, take AI mock interviews, and get smart feedback** on how they did — with skill-gap checks and learning tips made for them. It clearly says it will **not** give live human coaching or direct job placement. It only helps with the preparation part, through auto checks and tips.
 
-**User class:** Candidate — an authenticated student who uploads resumes, takes mock interviews, views performance analytics and accesses recommendations.
+**Who uses it:** Candidate — a logged-in student who uploads resumes, takes mock interviews, sees their progress, and gets tips.
 
-### Functional requirements — and where each one stands
+### What the SRS asks for — and where each point stands
 
-| ID | Requirement (SRS) | Status in this repo |
+| ID | What the SRS asks for | Where it stands in this repo |
 |---|---|---|
-| FR-1.1 | Register and log in using **JWT-based authentication** | 🗓️ Planned — Login/Register pages exist; auth is local-only today (see [Accounts](#-accounts--honest-status)) |
+| FR-1.1 | Sign up and log in with **JWT-based login** | 🗓️ Planned — Login/Register pages are there, but login works only in the browser today (see [Accounts](#-accounts--honest-status)) |
 | FR-1.2 | Upload a **PDF resume** | 🗓️ Planned |
-| FR-1.3 | Extract technical skills from the resume using **spaCy** | 🗓️ Planned |
-| FR-1.4 | Reject resume files larger than **5 MB** with a "File size exceeded" error | 🗓️ Planned |
-| FR-2.1 | Accept a text-based interview answer; reject empty submissions with an "Answer required" error | 🗓️ Planned |
-| FR-2.2 | Return a **semantic similarity score (0–100)** for every valid answer, using Sentence-Transformers | 🗓️ Planned |
-| FR-2.3 | Present a **Skill-Gap Analysis** report after a session of at least 5 questions | 🗓️ Planned |
-| FR-2.4 | When the NLP service is down, provide a keyword-matching fallback labelled **"Basic Evaluation"** | 🗓️ Planned |
-| FR-2.5 | Show improvement trends across the **last 5 interview attempts** | 🗓️ Planned |
+| FR-1.3 | Pull out skills from the resume using **spaCy** | 🗓️ Planned |
+| FR-1.4 | Say no to resume files bigger than **5 MB** with a "File size exceeded" error | 🗓️ Planned |
+| FR-2.1 | Take a text-based interview answer; say no to empty answers with an "Answer required" error | 🗓️ Planned |
+| FR-2.2 | Give a **similarity score (0–100)** for every answer, using Sentence-Transformers | 🗓️ Planned |
+| FR-2.3 | Show a **Skill-Gap Report** after a session of at least 5 questions | 🗓️ Planned |
+| FR-2.4 | When the NLP service is down, give a keyword-based score marked **"Basic Evaluation"** | 🗓️ Planned |
+| FR-2.5 | Show progress across the **last 5 interview tries** | 🗓️ Planned |
 
-### Non-functional requirements
+### Other must-haves (non-functional)
 
-| ID | Requirement (SRS) | Status |
+| ID | What the SRS asks for | Where it stands |
 |---|---|---|
-| NFR-1 | A semantic similarity score returned **within 3 seconds** | 🗓️ Planned — the current predictor answers in milliseconds (example inference: 12.4 ms) |
-| NFR-2 | User passwords stored with **bcrypt** hashing | 🗓️ Planned — no passwords are stored today |
-| NFR-3 | All interview attempts recorded, mapped to a unique **UserID** | 🗓️ Planned |
-| NFR-4 | **99% uptime** for the database service, so history is never lost | 🗓️ Planned — no database exists yet |
+| NFR-1 | A similarity score in **under 3 seconds** | 🗓️ Planned — the current predictor answers in milliseconds (one test took 12.4 ms) |
+| NFR-2 | Passwords saved with **bcrypt** | 🗓️ Planned — no passwords are saved today |
+| NFR-3 | Every interview try is saved, linked to one **UserID** | 🗓️ Planned |
+| NFR-4 | Database up **99% of the time**, so no history is lost | 🗓️ Planned — there is no database yet |
 
-### Architecture as the SRS envisions it
+### How the SRS plans the system
 
-| Component | Responsibility (SRS) |
+| Part | What it does (SRS) |
 |---|---|
-| Frontend (React) | Profile management and the interview chat window |
-| Backend (Node.js) | User authentication, session management, history stored in **PostgreSQL** |
-| NLP Services (FastAPI) | Resume processing and answer-similarity evaluation using **Sentence-Transformers** |
-| Recommendation Engine | Suggests learning resources based on identified skill gaps |
+| Frontend (React) | Profile pages and the interview chat window |
+| Backend (Node.js) | Login, sessions, and history saved in **PostgreSQL** |
+| NLP Services (FastAPI) | Resume work and answer checks using **Sentence-Transformers** |
+| Recommendation Engine | Suggests learning material based on weak skills |
 
-**Design decisions from the SRS**
+**Big choices from the SRS**
 
-| # | Decision | Alternative rejected | Why |
+| # | Choice | What was said no to | Why |
 |---|---|---|---|
-| D1 | **PostgreSQL** | MongoDB | Relational data is better for mapping scores to specific skills and users for analytics |
-| D2 | **Sentence-Transformers** | Keyword matching | Keyword matching fails when a user uses synonyms (e.g. "fast" vs "efficient") |
-| D3 | **FastAPI (Python)** for ML | Node.js for ML | Python has superior library support for NLP models like spaCy and SBERT |
+| D1 | **PostgreSQL** | MongoDB | Tables suit mapping scores to skills and users for progress checks |
+| D2 | **Sentence-Transformers** | Keyword matching | Keyword matching fails when a user uses other words for the same thing (e.g. "fast" vs "efficient") |
+| D3 | **FastAPI (Python)** for ML | Node.js for ML | Python has better ready-made tools for NLP models like spaCy and SBERT |
 
-**Dependencies (SRS):** HuggingFace Sentence-Transformers for embeddings · Vercel for hosting the frontend · FastAPI on a GPU-enabled instance for NLP inference.
+**What the SRS needs to run:** HuggingFace Sentence-Transformers for word meaning · Vercel to host the frontend · FastAPI on a GPU machine for NLP work.
 
-**Constraints (SRS):** C1 — evaluation is limited to technical and HR text-based responses. C2 — the readiness dataset is limited to historical attempts within the platform.
+**Limits the SRS sets:** C1 — checks are only for written technical and HR answers. C2 — the readiness data only comes from past tries inside the platform.
 
-### The dataset the SRS specifies
+### The dataset the SRS talks about
 
-| Item | Value (SRS) |
+| Point | What the SRS says |
 |---|---|
 | Dataset name | Preppilot Company Interview Preparation & Student Performance Dataset |
-| Source | Company-provided / publicly available interview-preparation test kits and job requirements, collected and structured by the Preppilot project team; plus public company career/job descriptions and interview-preparation material (URLs to be documented per source in the dataset metadata) |
-| Licence / terms | To be documented per source. Only publicly available data that permits reuse; company-proprietary test questions will not be redistributed; team-created questions marked synthetic / project-generated |
-| Size | Target **20,000–30,000 records** (final counts reported after collection, cleaning and deduplication) |
-| Prediction target | Company Readiness Score / Readiness Class — **Ready / Almost Ready / Not Ready** for a selected company's recruitment process |
-| Task type | Multi-class classification, with a readiness percentage/score as an additional output |
-| Primary metric | **Macro F1** — equal importance to Ready, Almost Ready and Not Ready, because misclassifying an under-prepared student as ready gives misleading recommendations |
-| Baseline | Most-Frequent-Class baseline (score to be calculated from the final dataset) |
-| Known data-quality problems | Duplicate questions, inconsistent difficulty labels, missing answers/options, different question formats across companies, uneven questions per company/topic, synthetic vs real questions, incomplete company-specific requirements — handled during preprocessing |
+| Where it comes from | Company-given / public interview prep test kits and job needs, collected and cleaned by the Preppilot team; plus public company job pages and interview prep material (links to be added for each source in the dataset notes) |
+| Rules for use | Rules to be written for each source. Only public data that can be reused; company-private test questions will not be shared again; questions made by the team will be marked as team-made |
+| Size | Target **20,000–30,000 records** (final count after collecting, cleaning and removing duplicate rows) |
+| What it predicts | Company Readiness Score / Readiness Class — **Ready / Almost Ready / Not Ready** for one company's hiring process |
+| Type of task | Multi-class prediction, with a readiness score (%) as an extra output |
+| Main score to judge by | **Macro F1** — Ready, Almost Ready and Not Ready count the same, because calling a weak student "ready" gives wrong tips |
+| Simple baseline | Most-common-class baseline (score to be worked out from the final data) |
+| Known data problems | Same questions twice, mixed difficulty tags, missing answers/options, different question styles across companies, uneven question counts per company/topic, team-made vs real questions, missing company needs — all to be fixed while cleaning the data |
 
-> **The one honest twist.** The SRS lists the Random Forest interview-readiness predictor as *deliberately not in the MVP* — it needed a large volume of user data that would not be available in the first sprint. In practice the build order flipped: the predictor, trained on 60,000 records, became the working core first, while the NLP, auth and resume scope above is the next phase. This README keeps both stories visible instead of pretending they are one.
+> **One honest twist.** The SRS says the Random Forest readiness predictor is *not part of the first version on purpose* — it needed lots of user data that would not be there in the first sprint. In real life the order changed: the predictor, trained on 60,000 records, became the working heart first, and the NLP, login and resume work is the next step. This README shows both stories side by side instead of mixing them into one.
 
-### Acceptance criteria (SRS)
+### How to know it is done (SRS checks)
 
-- **AC-1** — Log in with valid credentials → redirected to the Interview Dashboard.
-- **AC-2** — Uploading a resume correctly populates the "Skills" section of the user profile.
-- **AC-3** — Submitting a correct answer that uses different words than the reference answer still scores high (> 0.8 similarity).
-- **AC-4** — Attempting an interview without logging in redirects back to the login page.
+- **AC-1** — Log in with the right details → you reach the Interview Dashboard.
+- **AC-2** — Upload a resume → the "Skills" part of your profile fills up correctly.
+- **AC-3** — Give a right answer in your own words (not the same words as the sample answer) → you still get a high score (above 0.8).
+- **AC-4** — Try to take an interview without logging in → you are sent back to the login page.
 
-### Out of scope for this release (SRS)
+### Not part of this release (SRS)
 
-- Video interview analysis (real-time facial expression and body language)
-- Payment gateway / subscription models for premium coaching
-- Live recruiter portal (direct communication with real-world recruiters)
+- Video interview checks (face and body language in real time)
+- Payment / paid plans for premium coaching
+- Live recruiter portal (talking to real recruiters directly)
 
-### Project timeline (SRS build plan)
+### Project dates (SRS plan)
 
-| Stage | Deliverable | Date |
+| Step | What is ready | Date |
 |---|---|---|
-| Development Sprint I | Prototype / initial working model | 27 Sep 2026 |
-| Development Sprint II | 50% functional application | 17 Oct 2026 |
-| Development Sprint III | 75–80% functional application | 7 Nov 2026 |
-| **Testing & Validation** | Test report and bug log | **17 Nov 2026** |
-| **Deployment & Documentation** | Deployed application, user manual, technical documentation | **30 Nov 2026** |
-| Final Presentation | Final report, presentation and viva | 5–10 Dec 2026 |
+| Sprint I | First working model (prototype) | 27 Sep 2026 |
+| Sprint II | App 50% ready | 17 Oct 2026 |
+| Sprint III | App 75–80% ready | 7 Nov 2026 |
+| **Testing & Checks** | Test report and bug list | **17 Nov 2026** |
+| **Launch & Docs** | Live app, user guide, tech docs | **30 Nov 2026** |
+| Final Presentation | Final report, slides and viva | 5–10 Dec 2026 |
 
 ---
 
 ## 🗺️ Roadmap
 
-Drawn from the SRS MVP and the build plan — in dependency order:
+Taken from the SRS first version and the plan above — in the right order:
 
-1. ✅ **Readiness predictor, end to end** — the working core (this repo, today)
-2. 🗓️ **Real accounts** — JWT auth + bcrypt (FR-1.1, NFR-2), replacing the local-only sign-in
-3. 🗓️ **Resume upload + spaCy skill extraction** (FR-1.2, FR-1.3, FR-1.4)
-4. 🗓️ **NLP mock interviews** — semantic similarity scoring (FR-2.1, FR-2.2), with the "Basic Evaluation" fallback (FR-2.4)
-5. 🗓️ **Skill-gap reports and recommendations** (FR-2.3) and trend views across the last 5 attempts (FR-2.5)
-6. 🗓️ **Persistence** — Node.js + PostgreSQL backend (D1), history and analytics (NFR-3, NFR-4)
-7. 🗓️ **Deployment** — Vercel frontend, FastAPI NLP service (per the SRS plan, by 30 Nov 2026)
+1. ✅ **Readiness predictor, end to end** — the working heart (this repo, today)
+2. 🗓️ **Real accounts** — JWT login + bcrypt (FR-1.1, NFR-2), in place of the browser-only login
+3. 🗓️ **Resume upload + spaCy skill pull-out** (FR-1.2, FR-1.3, FR-1.4)
+4. 🗓️ **NLP mock interviews** — similarity scores (FR-2.1, FR-2.2), with the "Basic Evaluation" fallback (FR-2.4)
+5. 🗓️ **Skill-gap reports and tips** (FR-2.3) and progress views for the last 5 tries (FR-2.5)
+6. 🗓️ **Saving data** — Node.js + PostgreSQL backend (D1), history and progress checks (NFR-3, NFR-4)
+7. 🗓️ **Launch** — Vercel frontend, FastAPI NLP service (as per the SRS plan, by 30 Nov 2026)
 
 ---
 
 ## 👤 Accounts — honest status
 
-PrePilot has **no account server yet**. The Login and Register pages validate the form in the browser and keep the sign-in in `localStorage` on the user's own device only. No account is created on a server, no password is stored or sent anywhere, and no page claims otherwise. When a real auth backend exists (FR-1.1), `src/lib/localUser.js` is the single place to replace.
+PrePilot has **no account server yet**. The Login and Register pages only check the form in the browser and keep the login in `localStorage` on the user's own device. No account is made on a server, no password is saved or sent anywhere, and no page says otherwise. When a real login backend is built (FR-1.1), `src/lib/localUser.js` is the one file to change.
 
 ---
 
-## ⚠️ Known limitations
+## ⚠️ Known limits
 
-- The model cannot be retrained from this repository (dataset not committed).
-- `ml/server.py` reports `records_evaluated: 60000` in its `model_info` block; the held-out evaluation actually used the 12,000-record test split recorded in `ml/model_metadata.json`.
-- The frontend has no automated test suite yet; verification is lint + production build + manual/API smoke tests.
-- The SRS classes (Ready / Almost Ready / Not Ready) and the model classes (Poor / Average / Good / Excellent) are different label schemes — they will need one agreed mapping when the two scopes merge.
+- The model cannot be trained again from this repo (dataset not kept here).
+- `ml/server.py` shows `records_evaluated: 60000` in its `model_info` part, but the real test used the 12,000-record test set from `ml/model_metadata.json`.
+- The frontend has no auto tests yet; checks done so far are lint + production build + by-hand / API quick live tests.
+- The SRS classes (Ready / Almost Ready / Not Ready) and the model classes (Poor / Average / Good / Excellent) use different names — they will need one shared mapping when the two parts join.
 
 ---
 
-## 📄 Project
+## 📄 About the project
 
-**Author:** Khushboo Kaushik — B.Tech Computer Science & Engineering (AIML), GLA University, Greater Noida · Roll No. 22515500046 · Section NE
+**Made by:** Khushboo Kaushik — B.Tech Computer Science & Engineering (AIML), GLA University, Greater Noida · Roll No. 22515500046 · Section NE
 
-**Specification:** InterviewIQ AI — Software Requirement Specification, Version 1.0, September 2026.
+**Plan:** InterviewIQ AI — Software Requirement Specification, Version 1.0, September 2026.
 
-Contributions are welcome — please keep changes focused, verify the build (`npm run build`) and the ML endpoints before opening a pull request, and do not add secrets, datasets or credentials to the repository.
+All are welcome to help — please keep changes small and focused, check the build (`npm run build`) and the ML endpoints before opening a pull request, and do not add secrets, datasets or login details to the repo.
