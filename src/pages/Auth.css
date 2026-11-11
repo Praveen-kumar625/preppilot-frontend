@@ -1,0 +1,82 @@
+.auth {
+    padding: 80px 0 100px;
+}
+
+.auth-card {
+    max-width: 440px;
+    margin: 0 auto;
+    padding: 36px 32px;
+    text-align: left;
+}
+
+.auth-card h1 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 30px;
+    letter-spacing: -0.5px;
+    margin-bottom: 10px;
+}
+
+.auth-note {
+    color: var(--text-secondary);
+    font-size: 14px;
+    line-height: 1.65;
+    margin-bottom: 24px;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.auth-form label {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.auth-form input {
+    padding: 11px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-weight: 400;
+}
+
+.auth-form input:focus {
+    outline: 2px solid var(--primary);
+    outline-offset: 1px;
+}
+
+.auth-error {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #991b1b;
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.auth-switch {
+    margin-top: 22px;
+    font-size: 14px;
+    color: var(--text-secondary);
+    text-align: center;
+}
+
+.auth-switch a {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.auth-user {
+    text-align: center;
+}
+
+.auth-user p {
+    color: var(--text-secondary);
+    line-height: 1.65;
+    margin-bottom: 20px;
+}

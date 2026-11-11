@@ -1,0 +1,8 @@
+# PrePilot ML dependencies.
+# The model artifact (ml/preppilot_readiness_model.joblib) was exported with
+# scikit-learn 1.9.0 (see ml/model_metadata.json); keep scikit-learn on the
+# 1.9.x line so the saved pipeline loads without version-mismatch warnings.
+joblib>=1.3
+numpy>=1.26
+pandas>=2.0
+scikit-learn>=1.9,<2.0

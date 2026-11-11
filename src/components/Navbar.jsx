@@ -1,13 +1,19 @@
+import { Link } from "react-router-dom";
+
 function Navbar() {
     return (
         <nav>
-            <h2>PrePilot</h2>
+            <h2>
+                <Link to="/">PrePilot</Link>
+            </h2>
 
             <div>
-                <a href="#">Home</a>
-                <a href="#">Features</a>
-                <a href="#">About</a>
-                <button>Login</button>
+                <Link to="/">Home</Link>
+                <a href="/#features">Features</a>
+                <a href="/#predictor">Readiness Check</a>
+                <Link to="/login">
+                    <button type="button">Login</button>
+                </Link>
             </div>
         </nav>
     );
