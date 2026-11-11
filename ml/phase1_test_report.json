@@ -1,0 +1,103 @@
+{
+  "status": "PASS",
+  "loading_time": {
+    "model_size_mb": 10.81,
+    "cold_load_s": 0.6796,
+    "mean_load_s": 0.4963,
+    "min_load_s": 0.3939,
+    "max_load_s": 0.6796
+  },
+  "prediction_consistency": {
+    "samples_tested": 500,
+    "consistency_rate_pct": 100.0,
+    "accuracy_against_ground_truth_pct": 98.8
+  },
+  "latency_benchmark_ms": {
+    "runs": 100,
+    "mean_ms": 133.401,
+    "median_ms": 132.938,
+    "p95_ms": 162.485,
+    "min_ms": 98.697,
+    "max_ms": 208.454
+  },
+  "test_profiles": [
+    {
+      "name": "Profile 1: Top-Tier Candidate (SDE Target)",
+      "predicted_class": "Excellent",
+      "confidence": 0.93,
+      "probabilities": {
+        "Average": 0.0,
+        "Excellent": 0.93,
+        "Good": 0.07,
+        "Poor": 0.0
+      },
+      "inference_time_ms": 136.261,
+      "warning_count": 0
+    },
+    {
+      "name": "Profile 2: Competent Candidate (Full Stack Web Developer Target)",
+      "predicted_class": "Good",
+      "confidence": 0.8,
+      "probabilities": {
+        "Average": 0.0,
+        "Excellent": 0.2,
+        "Good": 0.8,
+        "Poor": 0.0
+      },
+      "inference_time_ms": 129.77,
+      "warning_count": 0
+    },
+    {
+      "name": "Profile 3: Data Specialist Candidate (Data Engineer / Analyst Target)",
+      "predicted_class": "Excellent",
+      "confidence": 0.82,
+      "probabilities": {
+        "Average": 0.0,
+        "Excellent": 0.82,
+        "Good": 0.18,
+        "Poor": 0.0
+      },
+      "inference_time_ms": 135.79,
+      "warning_count": 0
+    },
+    {
+      "name": "Profile 4: Average Candidate (Technical Support / QA Target)",
+      "predicted_class": "Average",
+      "confidence": 0.94,
+      "probabilities": {
+        "Average": 0.94,
+        "Excellent": 0.0,
+        "Good": 0.01,
+        "Poor": 0.05
+      },
+      "inference_time_ms": 134.999,
+      "warning_count": 0
+    },
+    {
+      "name": "Profile 5: Underprepared Candidate (AI/ML Engineer Target)",
+      "predicted_class": "Poor",
+      "confidence": 0.98,
+      "probabilities": {
+        "Average": 0.02,
+        "Excellent": 0.0,
+        "Good": 0.0,
+        "Poor": 0.98
+      },
+      "inference_time_ms": 142.732,
+      "warning_count": 0
+    },
+    {
+      "name": "Profile 6: Edge Case with Missing Fields & Unseen Category",
+      "predicted_class": "Good",
+      "confidence": 0.65,
+      "probabilities": {
+        "Average": 0.3,
+        "Excellent": 0.01,
+        "Good": 0.65,
+        "Poor": 0.04
+      },
+      "inference_time_ms": 129.668,
+      "warning_count": 36
+    }
+  ]
+}
